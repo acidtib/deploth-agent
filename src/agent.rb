@@ -37,7 +37,7 @@ module Agent
 
       hostname = %x(uname -n).strip
 
-      azerothcoreVersion = %x(git log --format="%H" -n 1).strip
+      azerothcoreVersion = %x(cd /var/azerothcore-wotlk && git log --format="%H" -n 1).strip
 
       data = {
         cpu_load: cpuLoad,
