@@ -1,0 +1,2 @@
+ping_host: "http://localhost:3000/node/ping"
+node_slug: "5-hello"
