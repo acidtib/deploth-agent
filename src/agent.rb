@@ -35,9 +35,9 @@ module Agent
 
       diskUsage = `df -m /`.split(/\b/)[26]
 
-      hostname = %x(uname -n)
+      hostname = %x(uname -n).strip
 
-      azerothcoreVersion = %x(git log --format="%H" -n 1)
+      azerothcoreVersion = %x(git log --format="%H" -n 1).strip
 
       data = {
         cpu_load: cpuLoad,
