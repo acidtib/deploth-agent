@@ -35,12 +35,18 @@ module Agent
 
       diskUsage = `df -m /`.split(/\b/)[26]
 
+      hostname = %x(uname -n)
+
+      azerothcoreVersion = %x(git log --format="%H" -n 1)
+
       data = {
         cpu_load: cpuLoad,
         disk_usage: diskUsage,
         memory_total: totalMemory,
         memory_used: usedMemory,
-        memory_free: freeMemory
+        memory_free: freeMemory,
+        hostname: hostname,
+        azerothcore_version: azerothcoreVersion
       }
 
       Helper.ping(data)
