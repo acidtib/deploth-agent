@@ -1,9 +1,10 @@
 require 'yaml'
 require 'json'
 require 'httparty'
-require "pp"
+require 'etc'
+require 'pp'
 
-CONF = YAML.load_file("/var/deploth-agent/agent.yml")
+CONF = YAML.load_file("#{Etc.getpwuid.dir}/deploth-agent/agent.yml")
 
 module Agent
   class Helper
@@ -40,7 +41,7 @@ module Agent
 
       hostVersion = %x(lsb_release -a | grep Description:).split(":")[1].strip
 
-      azerothcoreVersion = %x(cd ~/azerothcore-wotlk && git log --format="%H" -n 1).strip
+      azerothcoreVersion = %x(cd #{Etc.getpwuid.dir}/azerothcore-wotlk && git log --format="%H" -n 1).strip
 
       data = {
         cpu_load: cpuLoad,
