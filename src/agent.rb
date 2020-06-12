@@ -26,18 +26,21 @@ module Agent
 
   class Client
     def self.status
-      getMemory = %x(free)
-      totalMemory = getMemory.split(" ")[7]
-      usedMemory = getMemory.split(" ")[8]
-      freeMemory = getMemory.split(" ")[9]
+      getMemory = %x(free --giga).split(" ")
+      totalMemory = getMemory[7]
+      usedMemory = getMemory[8]
+      freeMemory = getMemory[9]
 
       cpuLoad = %x(w | head -1).strip.split(":").last.split(",").first.strip
 
-      diskUsage = `df -m /`.split(/\b/)[26]
+      diskData = %x(df /).split(" ")
+      diskUsage = diskData[11]
 
-      hostname = %x(uname -n).strip
+      hostName = %x(uname -n).strip
 
-      azerothcoreVersion = %x(cd /var/azerothcore-wotlk && git log --format="%H" -n 1).strip
+      hostVersion = %x(lsb_release -a | grep Description:).split(":")[1].strip
+
+      azerothcoreVersion = %x(cd ~/azerothcore-wotlk && git log --format="%H" -n 1).strip
 
       data = {
         cpu_load: cpuLoad,
@@ -45,7 +48,8 @@ module Agent
         memory_total: totalMemory,
         memory_used: usedMemory,
         memory_free: freeMemory,
-        hostname: hostname,
+        hostname: hostName,
+        host_version: hostVersion,
         azerothcore_version: azerothcoreVersion
       }
 
